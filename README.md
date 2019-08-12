@@ -14,4 +14,6 @@ Nuestro sistema va a tener una arquitectura basada en microservicios y estará c
 
 También se incorporarán otros microservicios como uno para logs y según las necesidades del cliente se incorporará otro microservicio para el analisis de estos datos. No se descarta la incorporación de otros microservicios en un futuro.
 
+![Aquitectura](/doc/img/arq.png)
+
 El sistema estará programado con NodeJS. Tanto la API REST como la interacion con la base de datos como el servicio de logs.
