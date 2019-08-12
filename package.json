@@ -1,0 +1,22 @@
+{
+  "name": "pcc2",
+  "version": "1.0.0",
+  "description": "Proyecto para la asignatura CC",
+  "main": "app.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "mocha --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javiercabrera184/PCC2.git"
+  },
+  "author": "Antonio Cabrera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javiercabrera184/PCC2/issues"
+  },
+  "homepage": "https://github.com/javiercabrera184/PCC2#readme"
+}
