@@ -85,7 +85,7 @@ describe( "borra datos", function() {
 
 
 
-
+//clase
 describe( "OBJECT TEST", function() {
 
 
