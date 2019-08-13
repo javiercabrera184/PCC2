@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
   var output={
                "status": "OK",
                "ejemplo": { "ruta": "/data",
-                            "valor": { "PositionS stored ": 0 }
+                            "valor": { "PositionS stored ": datos }
                           }
               }
   res.send(output);
