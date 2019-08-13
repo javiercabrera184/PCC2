@@ -1,0 +1,19 @@
+branches:
+  only:
+    - master
+language: node_js
+sudo: false
+node_js:
+  - node
+install:
+  - npm install mocha
+  - npm install supertest
+  - npm install express
+  - npm install assert
+  - npm install should
+deploy:
+  provider: heroku
+  strategy: git
+  app: fast-sea-28858
+  on:
+    repo: javiercabrera184/PCC2
