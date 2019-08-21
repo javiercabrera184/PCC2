@@ -1,0 +1,40 @@
+---
+- hosts: azure
+  user: antonio
+  vars:
+    project_path: /home/antonio/proyecto
+  tasks:
+    - name: Crear directorio
+      file:
+        dest={{ project_path }}
+        mode=0755
+        recurse=yes
+        state=directory
+    - name: Clonar el repositorio
+      git:
+        repo: https://github.com/javiercabrera184/PCC2.git
+        dest: "{{ project_path }}"
+        force: yes
+    - name: Instalar npm
+      become: true
+      become_method: sudo
+      apt:
+        pkg=npm state=present
+    - name: Instala dependecias npm
+      npm:
+        path={{ project_path }}
+    - name: Instala pm2
+      become: true
+      become_method: sudo
+      npm:
+        name: pm2
+        global: yes
+    - name: Elimina el proceso lanzado anteriormente
+      command: pm2 delete PR
+      ignore_errors: yes
+    - name: Redirigir puertos
+      become: true
+      become_method: sudo
+      command: iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3000
+    - name: Arrancar pm2
+      command: pm2 start {{ project_path }}/app.js --name PR
