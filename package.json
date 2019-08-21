@@ -22,6 +22,7 @@
   "homepage": "https://github.com/javiercabrera184/PCC2#readme",
   "dependencies": {
     "assert": "^2.0.0",
+    "bunyan": "^1.8.12",
     "express": "^4.17.1",
     "should": "^13.2.3"
   },
