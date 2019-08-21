@@ -28,3 +28,14 @@ Tambien se ha configurado Github para que cuando realizamos un push a nuestro re
 En este [documento](./doc/hito2.md) se puede encontrar más informacion sobre este hito.
 
 despliegue https://fast-sea-28858.herokuapp.com/
+
+
+## Hito 3: Provisionamiento de máquinas virtuales
+
+En este hito se ha realizado el provisionamiento de nuestra aplicación, se ha realiazado con Ansible y desplegado en una máquina virtual en Azure cuyos parámetros se han elegido a conciencia de nuestra aplicación.
+
+Se ha incrementado nuestra aplicación con un servicio de logs.
+
+Toda la información se encuentra en este [documento](./doc/hito3.md).
+
+MV: 40.89.173.40
