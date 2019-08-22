@@ -4,6 +4,19 @@ var app = express();
 var data = require("./class.js");
 var bunyan = require('bunyan');
 
+var MongoClient = require('mongodb').MongoClient;
+const url="mongodb://localhost/mydb";
+
+MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("mydb");
+  dbo.createCollection("app1", function(err, res) {
+    if (err) throw err;
+    console.log("Coleccion creada!");
+    db.close();
+  });
+});
+
 var log = bunyan.createLogger({name: 'API-REST',
   streams: [
     {
@@ -29,21 +42,49 @@ app.get('/', function (req, res) {
 
 //read and query
 app.get('/data', function (req, res) {
-  log.info(datos);
-  res.send(datos);
+  //res.setHeader('Content-Type', 'applicaton/json')
+  MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+    var mysort = { time: 1 };
+    dbo.collection("app1").find().sort(mysort).toArray(function(err, result) {
+      if (err) throw err;
+      log.info(result);
+      res.send(result);
+      db.close();
+    });
+  });
+
+  //log.info(datos);
+  //res.send(datos);
 });
+
 //edita x e y
 app.post('/data/:match/:pla/:x/:y/:time/', function(req,res){
-
+  var nofind=0;
   var nuevos_datos = new data.Datos(req.params.match,req.params.pla,req.params.x,req.params.y,req.params.time);
-  if(!datos[nuevos_datos.ID]){
+  MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+    var myquery = { ID: nuevos_datos.ID};
+    var newvalues = { $set: nuevos_datos };
+    dbo.collection("app").updateOne(myquery, newvalues, function(err, res) {
+      if (err){
+        nofind=1;
+      }else{
+        console.log("1 documento actualizado");
+      }
+
+      db.close();
+    });
+  });
+  if(nofind==1){
     log.info("POST 404 NO EXISTS");
-    res.status(404).send("No exists");
+    res.status(404).send("No exisste");
   }else{
-    datos[nuevos_datos.ID].x=req.params.x;
-    datos[nuevos_datos.ID].y=req.params.y;
-    log.info("POST 200 "+ datos[nuevos_datos.ID]);
-    res.status(200).send(datos[nuevos_datos.ID]);
+
+    log.info("POST 200 "+ nuevos_datos);
+    res.status(200).send(nuevos_datos);
   }
 
 });
@@ -52,7 +93,18 @@ app.post('/data/:match/:pla/:x/:y/:time/', function(req,res){
 app.put('/data/:match/:pla/:x/:y/:time/',function(req, res){
 
   var nuevos_datos = new data.Datos(req.params.match,req.params.pla,req.params.x,req.params.y,req.params.time);
-  datos[nuevos_datos.ID]= nuevos_datos;
+  //datos[nuevos_datos.ID]= nuevos_datos;
+
+  MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+
+    dbo.collection("app1").insertOne(nuevos_datos, function(err, res) {
+      if (err) throw err;
+      console.log("1 documento insertedo");
+      db.close();
+    });
+  });
   log.info("PUT 200 "+ datos[nuevos_datos.ID]);
   res.status(200).send(nuevos_datos);
 
@@ -62,13 +114,28 @@ app.put('/data/:match/:pla/:x/:y/:time/',function(req, res){
 app.delete('/data/:match/:pla/:x/:y/:time/',function(req,res){
 
   var nuevos_datos = new data.Datos(req.params.match,req.params.pla,req.params.x,req.params.y,req.params.time);
-  if(!datos[nuevos_datos.ID]){
+  var nofind=0;
+  MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("mydb");
+    var myquery = { ID: nuevos_datos.ID};
+    dbo.collection("app1").deleteOne(myquery, function(err, obj) {
+      if (err){ nofind=1;}
+      else{
+        console.log("1 documento borrado");
+      }
+
+      db.close();
+    });
+
+  });
+  if(nofind==1){
     log.info("DELETE 404 NO EXISTS");
     res.status(404).send("No exists");
   }else{
-    delete datos[nuevos_datos.ID];
-    log.info("DELETE 200 "+ datos);
-    res.status(200).send(datos);
+
+    log.info("DELETE 200 "+ nuevos_datos);
+    res.status(200).send(nuevos_datos);
   }
 });
 

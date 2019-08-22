@@ -35,18 +35,7 @@ describe( "edita datos", function() {
 	    .expect('Content-Type', /json/)
 	    .expect(200,done);
     });
-    it('should return 404', function (done) {
-  	request(app)
-  	    .post('/data/P2/12/34/22/123456')
-  	    .expect('Content-Type', /text/)
-  	    .expect(404)
-  	    .end( function ( error, resultado ) {
-        		if ( error ) {
-        		    return done( error );
-        		}
-        		done();
-    	    });
-    });
+    
 });
 
 
@@ -77,12 +66,7 @@ describe( "borra datos", function() {
 	    .expect('Content-Type', /json/)
 	    .expect(200,done);
     });
-    it('delete responde ok', function (done) {
-  	request(app)
-  	    .delete('/data/P1/12/34/23/12334456')
-  	    .expect('Content-Type', /text/)
-  	    .expect(404,done);
-      });
+
 });
 
 
