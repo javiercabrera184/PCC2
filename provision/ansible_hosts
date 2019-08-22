@@ -1,2 +1,4 @@
 [azure]
-40.89.173.40 ansible_user=antonio 
+40.89.173.40 ansible_user=antonio
+[azure1]
+40.89.167.108 ansible_user=antonio

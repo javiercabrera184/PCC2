@@ -1,6 +1,7 @@
 ---
-- hosts: azure
+- hosts: azure1
   user: antonio
+  become: yes
   vars:
     project_path: /home/antonio/proyecto
   tasks:
@@ -40,18 +41,13 @@
       service:
         name: mongod
         state: started
-    - name: install node
+    - name: Instalar node
       shell: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-get install -y nodejs
     - name: Clonar el repositorio
       git:
         repo: https://github.com/javiercabrera184/PCC2.git
         dest: "{{ project_path }}"
         force: yes
-    - name: Instalar npm
-      become: true
-      become_method: sudo
-      apt:
-        pkg=npm state=present
     - name: Instala dependecias npm
       npm:
         path={{ project_path }}
