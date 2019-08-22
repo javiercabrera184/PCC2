@@ -140,10 +140,10 @@ app.delete('/data/:match/:pla/:x/:y/:time/',function(req,res){
 });
 
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 app.listen(port, function () {
-  console.log('Listening on port 3000!');
-  log.info('Listening on port 3000!');
+  console.log('Listening on port 80!');
+  log.info('Listening on port 80!');
 });
 
 module.exports = app;
