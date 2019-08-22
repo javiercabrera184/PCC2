@@ -12,7 +12,7 @@ MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   var dbo = db.db("mydb");
   dbo.createCollection("app1", function(err, res) {
     if (err) throw err;
-    console.log("Coleccion creada!");
+    log.info("Coleccion creada!");
     db.close();
   });
 });
@@ -72,7 +72,7 @@ app.post('/data/:match/:pla/:x/:y/:time/', function(req,res){
       if (err){
         nofind=1;
       }else{
-        console.log("1 documento actualizado");
+         log.info("1 documento actualizado");
       }
 
       db.close();
@@ -101,7 +101,7 @@ app.put('/data/:match/:pla/:x/:y/:time/',function(req, res){
 
     dbo.collection("app1").insertOne(nuevos_datos, function(err, res) {
       if (err) throw err;
-      console.log("1 documento insertedo");
+      log.info("1 documento insertedo");
       db.close();
     });
   });
@@ -122,7 +122,7 @@ app.delete('/data/:match/:pla/:x/:y/:time/',function(req,res){
     dbo.collection("app1").deleteOne(myquery, function(err, obj) {
       if (err){ nofind=1;}
       else{
-        console.log("1 documento borrado");
+        log.info("1 documento borrado");
       }
 
       db.close();
