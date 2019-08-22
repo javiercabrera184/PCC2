@@ -39,3 +39,13 @@ Se ha incrementado nuestra aplicación con un servicio de logs.
 Toda la información se encuentra en este [documento](./doc/hito3.md).
 
 MV: 40.89.173.40
+
+## Hito 4: Automatización de la creación de máquinas virtuales desde línea de órdenes
+
+En esta parte se ha realizado el acopio de máquinas virtuales a través de la linea de comandos usando la herramienta de Azure CLI.
+
+Además se ha incorporado una base de datos no relacional como es MongoDB. Tanto la instalacion, como el uso, como el provisionamiento se explican más adelante.
+
+Toda la informacion necesaria respecto a este hito se encuentra en [este documento.](./doc/hito4.md)
+
+MV2: 40.89.167.108
