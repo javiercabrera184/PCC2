@@ -13,5 +13,5 @@ az network nsg rule create --resource-group Prueba --nsg-name myNet --name ssh -
 #Creamos la maquina virtual dentro del grupo de recursos creado anteriormente, elegimos imagen y usuario.
 az vm create --resource-group Prueba --name CCproyecto --image Canonical:UbuntuServer:18.04-LTS:latest --admin-username antonio --generate-ssh-keys --public-ip-address-allocation static --nsg myNet --size Standard_A0
 #Creacion de otras maquinas virtuales para la prueba de rendimiento
-#az vm create --resource-group Prueba --name CCproyecto2 --image credativ:Debian:10-DAILY:latest --admin-username antonio --generate-ssh-keys --public-ip-address-allocation static --nsg myNet
-#az vm create --resource-group Prueba --name CCproyecto3 --image OpenLogic:CentOS-HPC:7.4:7.4.20180301 --admin-username antonio --generate-ssh-keys --public-ip-address-allocation static --nsg myNet
+#az vm create --resource-group Prueba --name CCproyecto2 --image credativ:Debian:10-DAILY:latest --admin-username antonio --generate-ssh-keys --public-ip-address-allocation static --nsg myNet --size Standard_A0
+#az vm create --resource-group Prueba --name CCproyecto3 --image OpenLogic:CentOS-HPC:7.4:7.4.20180301 --admin-username antonio --generate-ssh-keys --public-ip-address-allocation static --nsg myNet --size Standard_A0
