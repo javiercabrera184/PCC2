@@ -29,8 +29,8 @@ var log = bunyan.createLogger({name: 'API-REST',
 
 var datos = {};
 
-app.use(express.static(path.join(__dirname, 'page')));
 
+app.use('/page', express.static('page'));
 app.get("/page",function(req,res){
   res.sendFile(path.join(__dirname + '/page/index.html'));
 });
