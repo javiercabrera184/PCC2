@@ -62,3 +62,4 @@ typings/
 
 apirest-error.log
 ./provision/playbook.retry
+.vagrant
