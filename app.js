@@ -31,6 +31,7 @@ var datos = {};
 
 
 app.use('/page', express.static('page'));
+
 app.get("/page",function(req,res){
   res.sendFile(path.join(__dirname + '/page/index.html'));
 });
@@ -147,7 +148,7 @@ app.delete('/data/:match/:pla/:x/:y/:time/',function(req,res){
 });
 
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 app.listen(port, function () {
   console.log('Listening on port 80!');
   log.info('Listening on port 80!');

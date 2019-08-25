@@ -1,0 +1,36 @@
+---
+- hosts: all
+  user: antonio
+  become: yes
+  vars:
+    project_path: /home/antonio/proyecto
+  tasks:
+    - name: Crear directorio
+      become: true
+      become_method: sudo
+      file:
+        dest={{ project_path }}
+        mode=0755
+        recurse=yes
+        state=directory
+    - name: Clonar el repositorio
+      git:
+        repo: https://github.com/javiercabrera184/ProyectoCC.git
+        dest: "{{ project_path }}"
+        force: yes
+    - name: Instalar node
+      shell: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-get install -y nodejs
+    - name: Instala dependecias npm
+      npm:
+        path={{ project_path }}
+    - name: Instala pm2
+      become: true
+      become_method: sudo
+      npm:
+        name: pm2
+        global: yes
+    - name: Elimina el proceso lanzado anteriormente
+      command: pm2 delete PR
+      ignore_errors: yes
+    - name: Arrancar pm2
+      command: pm2 start {{ project_path }}/app.js --name PR

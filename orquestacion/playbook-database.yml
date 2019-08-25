@@ -1,0 +1,41 @@
+---
+- hosts: all
+  user: antonio
+  become: yes
+  tasks:
+    - name: Añadir clave GPG para Mongo
+      become: true
+      become_method: sudo
+      apt_key:
+        keyserver: hkp://keyserver.ubuntu.com:80
+        id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+        state: present
+    - name: Añadir repo de mongo
+      become: true
+      become_method: sudo
+      lineinfile:
+        line: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse"
+        dest: /etc/apt/sources.list.d/mongodb-org-4.0.list
+        state: present
+        create: yes
+    - name: Instalar MongoDB
+      become: true
+      become_method: sudo
+      apt:
+        name: mongodb-org
+        state: present
+        update_cache: yes
+    - name: Hacemos que escuche de otras IPs
+      become: true
+      become_method: sudo
+      command: sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+    - name: Permitir conexiones por el puerto 27017
+      become: true
+      become_method: sudo
+      command: iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+    - name: Arrancar servicio
+      become: true
+      become_method: sudo
+      service:
+        name: mongod
+        state: started
