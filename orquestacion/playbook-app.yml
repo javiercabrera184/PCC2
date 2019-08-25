@@ -3,7 +3,7 @@
   user: antonio
   become: yes
   vars:
-    project_path: /home/antonio/proyecto
+    project_path: /home/vagrant/proyecto
   tasks:
     - name: Crear directorio
       become: true
@@ -15,7 +15,7 @@
         state=directory
     - name: Clonar el repositorio
       git:
-        repo: https://github.com/javiercabrera184/ProyectoCC.git
+        repo: https://github.com/javiercabrera184/PCC2.git
         dest: "{{ project_path }}"
         force: yes
     - name: Instalar node
