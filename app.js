@@ -3,6 +3,7 @@ var app = express();
 
 var data = require("./class.js");
 var bunyan = require('bunyan');
+var path = require('path');
 
 var MongoClient = require('mongodb').MongoClient;
 const url="mongodb://localhost/mydb";
@@ -27,6 +28,12 @@ var log = bunyan.createLogger({name: 'API-REST',
 });
 
 var datos = {};
+
+app.use(express.static(path.join(__dirname, 'page')));
+
+app.get("/page",function(req,res){
+  res.sendFile(path.join(__dirname + '/page/index.html'));
+});
 
 app.get('/', function (req, res) {
 
