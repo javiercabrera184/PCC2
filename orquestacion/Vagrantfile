@@ -20,8 +20,8 @@ Vagrant.configure('2') do |config|
       azure.location="francecentral"
       azure.resource_group_name="CC-Hito5"
       azure.vm_size = 'Standard_A0'
-      azure.tcp_endpoints = 27017 #abrimos solo puerto 27017
       azure.virtual_network_name="redprivada" #red virtual
+      azure.tcp_endpoints = 27017 #abrimos solo puerto 27017
 
 
     end
@@ -51,8 +51,8 @@ Vagrant.configure('2') do |config|
       azure.location="francecentral"
       azure.resource_group_name="CC-Hito5"
       azure.vm_size = 'Standard_A0'
-      azure.tcp_endpoints = [80,27017] #abrimos puertos 80 y 27017
       azure.virtual_network_name="redprivada" #usamos el mismo nombre de la red
+      azure.tcp_endpoints = [80,27017] #abrimos puertos 80 y 27017
 
     end
     #provisionamos

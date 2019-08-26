@@ -23,6 +23,14 @@
     - name: Instala dependecias npm
       npm:
         path={{ project_path }}
+    - name: Permitir conexiones por el puerto 27017
+      become: true
+      become_method: sudo
+      command: iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+    - name: Permitir conexiones por el puerto 80
+      become: true
+      become_method: sudo
+      command: iptables -A INPUT -p tcp --dport 80 -j ACCEPT
     - name: Instala pm2
       become: true
       become_method: sudo
