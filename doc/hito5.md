@@ -27,7 +27,7 @@ La orquestación se ha realizado con con vagrant, ya que es la herramienta que m
 
 Para comenzar debemos de instalarla, seguidamente debemos de preparar la herramienta para su uso con Azure. Para ello, se ha seguido [el getting started del reposotorio oficial de azure en github.](https://github.com/Azure/vagrant-azure)
 
-Primero hacemos el login con azure, yo ya lo tengo hecho del hito anterior. Elegimos la nueva suscripción y ejecutamos el siguiente comando para crear un directorio de aplicacion activo de azure con acceso al gestor de recursos:
+Primero hacemos el login con azure, yo ya lo tengo hecho del hito anterior. Elegimos la nueva suscripción y ejecutamos el siguiente comando para crear un directorio de aplicación activo de azure con acceso al gestor de recursos:
 
 ```
 az ad sp create-for-rbac
@@ -129,25 +129,32 @@ end
 
 Para realizar este archivo se ha partido de la base que se encuentra en el getting started de azure para vagrant anteriormente comentado. Se han terminado por crear dos máquinas vituales y se han provisionado.
 
+En primer lugar indicamos la versión del API de Vagrant, en este caso es la 2, ahora, definimos una máquina virtual con el nombre *azure*  y le indicamos que la caja a utilizar para la máquina virtual es la caja *azure-dummy*. Esta caja es la que importamos al instalar el plugin de vagran para azure. La cual la añadimos con este comando:
+
+```
+vagrant box add azure-dummy https://github.com/azure/vagrant-azure/raw/v2.0/dummy.box --provider azure
+```
+
+
 Primeramente se exporta la clave ssh para poder acceder, luego se les da valor a las variables obligatorias previamente comentadas, y por último las opcionales, que tienen que ver con los parametros de la máquina virtual.
 
 Existen muchos parametros a configurar, pero solo me he centrado en los que en hitos anteriores he usado, como la localización, el grupo de seguridad de red, la apertura de puertos, la imagen y el usuario. La justificacion de la eleccion de la imagen y del grupo de recursos ya se han expuesto en hitos anteriores.
 
-Se crean dos máquinas, una de ellas tiene la base de datos a la que accede nuestra aplicación y la otra la aplicacion propiamente dicha a la cual accedemos. Para provisionarlas se han creado dos archivos de provisionamiento diferentes. Es importante el orden de creación. Primero la base de datos y luego la aplicación. Ya que de esta forma cuando la aplicación se inicia tiene la base de datos ya creada, si lo accedmos al reves la conexion de la aplicacion a la base de datos fallará.
+Se crean dos máquinas, una de ellas tiene la base de datos a la que accede nuestra aplicación y la otra la aplicación propiamente dicha a la cual accedemos. Para provisionarlas se han creado dos archivos de provisionamiento diferentes. Es importante el orden de creación. Primero la base de datos y luego la aplicación. Ya que de esta forma cuando la aplicación se inicia tiene la base de datos ya creada, si lo accedmos al reves la conexion de la aplicación a la base de datos fallará.
 
-Destacar, que en la maquina virtual de la base de datos solo se ha puesto el puerto 27017 correspondiente a mongo. En la máquina virtual de la aplicación se abren el puerto 80 y 27017. Esta apertura de puertos es lo lógico, ya que la de base de datos solo se quiere utilizar para ese proposito y la de aplicación se utiliza para hacer peticiones http y debe de realizar consultas a la base de datos contenida en la otra máquina. Por último, se crea una red con el mismo nombre en las dos, esto hace que las dos máquinas esten en la misma subred y puedan acceder entre ellas, azure por defecto asigna a la primera maquina la IP 10.0.0.4 y a la segunda la IP 10.0.0.5. Esto se indica en la aplicación para decirle la ruta de conexión de la base de datos.
+Destacar, que en la máquina virtual de la base de datos solo se ha puesto el puerto 27017 correspondiente a mongo. En la máquina virtual de la aplicación se abren el puerto 80 y 27017. Esta apertura de puertos es lo lógico, ya que la de base de datos solo se quiere utilizar para ese proposito y la de aplicación se utiliza para hacer peticiones http y debe de realizar consultas a la base de datos contenida en la otra máquina. Por último, se crea una red con el mismo nombre en las dos, esto hace que las dos máquinas esten en la misma subred y puedan acceder entre ellas, azure por defecto asigna a la primera máquina la IP 10.0.0.4 y a la segunda la IP 10.0.0.5. Esto se indica en la aplicación para decirle la ruta de conexión de la base de datos.
 
 ### Cambios en los archivos de provision
 
 Principalmente, el cambio más sustancial es dividir el playbook original en dos. En el [playbook de la aplicación](./../orquestacion/playbook-app.yml) quitamos todo lo referente a la base de datos y lo metemos en el [playbook de la base de datos](./../orquestacion/playbook-database.yml).
 
-El playbook de la app lo dejamos igual, pero añadimos reglas de entrada a los puertos 80 y 22 (no deberia de hacer falta pero de esta manera me ha funcionado), ahora tenemos que añadir en el playbook de la base de datos la configuracion de mongo para que se pueda acceder remotamente. Para ello solo tenemos que usar el siguiente comando antes de ejecutar la app:
+El playbook de la app lo dejamos igual, pero añadimos reglas de entrada a los puertos 80 y 22 (no debería de hacer falta pero de esta manera me ha funcionado), ahora tenemos que añadir en el playbook de la base de datos la configuracion de mongo para que se pueda acceder remotamente. Para ello solo tenemos que usar el siguiente comando antes de ejecutar la app:
 
 ```
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 ```
 
-Esto lo que hace es usar el comando sed, que busca cadenas que coincidan con expresiones regulares que se les pase y la sustituye por otra expresion en el fichero de configuracion de mongo. Se sustituye por 0.0.0.0 para que escuche de todas las IPs que le lleguen. Por último, se abre el puerto correspondiente a mongo,(no deberia de ser necesario ya que eso se indica en el Vagrantfile, pero no me funcionaba si no lo hacia). Me he servido de [esta web](https://www.mkyong.com/mongodb/mongodb-allow-remote-access/) para justificar estos cambios.
+Esto lo que hace es usar el comando sed, que busca cadenas que coincidan con expresiones regulares que se les pase y la sustituye por otra expresion en el fichero de configuracion de mongo. Se sustituye por 0.0.0.0 para que escuche de todas las IPs que le lleguen. Por último, se abre el puerto correspondiente a mongo,(no debería de ser necesario ya que eso se indica en el Vagrantfile, pero no me funcionaba si no lo hacia). Me he servido de [esta web](https://www.mkyong.com/mongodb/mongodb-allow-remote-access/) para justificar estos cambios.
 
 
 
@@ -159,13 +166,13 @@ vagrant up --no-parallel
 
 ```
 
-Con esto realizamos tanto la creación de la máquina virtual como de su provisionamiento. Podemos acceder a la maquina vitual con:
+Con esto realizamos tanto la creación de la máquina virtual como de su provisionamiento. Podemos acceder a la máquina vitual con:
 
 ```
 vagrant ssh app
 ```
 
-para la máquina de la aplicacion, o
+para la máquina de la aplicación, o
 
 ```
 vagrant ssh database
