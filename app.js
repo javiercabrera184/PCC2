@@ -6,7 +6,7 @@ var bunyan = require('bunyan');
 var path = require('path');
 
 var MongoClient = require('mongodb').MongoClient;
-const url="mongodb://10.0.0.4/mydb";
+const url="mongodb://localhost/mydb";
 
 MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
