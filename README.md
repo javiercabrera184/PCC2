@@ -58,3 +58,5 @@ En este hito se ha desarrollado una página web con una ruta nueva y se ha reali
 Toda la informacion necesaria respecto a este hito se encuentra en [este documento.](./doc/hito5.md)
 
 Despliegue Vagrant: 40.89.134.219
+
+## Sexto hito: Contenedores para despliegue en la nube.
