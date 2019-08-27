@@ -60,3 +60,12 @@ Toda la informacion necesaria respecto a este hito se encuentra en [este documen
 Despliegue Vagrant: 40.89.134.219
 
 ## Sexto hito: Contenedores para despliegue en la nube.
+
+En este hito se ha desarrollado el despliegue de la aplicación en contenedores en la nube.
+
+Toda la informacion necesaria respecto a este hito se encuentra en [este documento.](./doc/hito6.md)
+
+
+Contenedor: 51.11.1.86
+
+DockerHub: https://hub.docker.com/r/antojavi94/app

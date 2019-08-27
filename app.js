@@ -6,7 +6,7 @@ var bunyan = require('bunyan');
 var path = require('path');
 
 var MongoClient = require('mongodb').MongoClient;
-const url="mongodb://localhost/mydb";
+const url="mongodb://51.11.0.203/mydb";
 
 MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
@@ -148,7 +148,7 @@ app.delete('/data/:match/:pla/:x/:y/:time/',function(req,res){
 });
 
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 80;
 app.listen(port, function () {
   console.log('Listening on port 80!');
   log.info('Listening on port 80!');
