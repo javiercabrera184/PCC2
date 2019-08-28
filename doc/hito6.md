@@ -33,7 +33,6 @@ RUN npm install
 
 COPY . .
 
-# Escuchamos por el puerto 80
 EXPOSE 80
 EXPOSE 27017
 
@@ -93,3 +92,29 @@ Esta es la salida:
 Ahora si accedemos al localhost podemos ver que nuestra aplicación esta funcionando:
 
 ![](./img/local.png)
+
+
+## DockerHub
+
+Ahora vamos a subir nuestra imagen a DockerHub. Para ello nos debemos de registrar y una vez hecho esto poner el siguiente comando para registrarnos en local:
+
+```
+sudo docker login docker.io
+
+```
+
+Ahora podmeos subir nuestra imagen con el siguiente comando:
+
+```
+sudo docker push antojavi94/app:1.0
+
+```
+Esta es la salida:
+
+![](./img/push.png)
+
+Si accedemos a nuestro DockerHub podemos ver que esta la imagen subida:
+
+![](./img/dockerhub.png)
+
+## Despliegue en Azure

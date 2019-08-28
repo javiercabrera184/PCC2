@@ -11,7 +11,6 @@ RUN npm install
 
 COPY . .
 
-# Escuchamos por el puerto 80
 EXPOSE 80
 EXPOSE 27017
 
