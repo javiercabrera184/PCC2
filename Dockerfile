@@ -4,7 +4,7 @@ MAINTAINER Antonio Javier Cabrera Gutierrez <antojavi1994@correo.ugr.es>
 
 WORKDIR app/
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install
 
