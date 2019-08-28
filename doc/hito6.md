@@ -118,3 +118,36 @@ Si accedemos a nuestro DockerHub podemos ver que esta la imagen subida:
 ![](./img/dockerhub.png)
 
 ## Despliegue en Azure
+
+
+Para desplegar en azure debemos de usar el comando de *az container create*. Esto nos permite crear contenedores en azure. En el [script](./../contenedores/script.sh) de creación de los dos contenedores se puede ver los pasos a seguir:
+```
+az group create --name Hito6 --location uksouth
+
+
+az container create --resource-group Hito6 --name database --image mongo --dns-name-label red-database --ports 27017
+
+az container create --resource-group Hito6 --name app --image antojavi94/app:1.0 --dns-name-label red-app --ports 27017 80
+
+```
+
+Primer creamos el grupo de recursos, este no nos permite ser creado para francia centra y oeste de reino unido ya que no tiene soporte para contendores. Por lo que se ha creado en el sur de reino unido, ya que era el tercero con menos latencia en las pruebas de velocidad del hito 4.
+
+Ahora creamos el primer contenedor. Este le indicamos el nombre, la imagen que es la de mongo, el dns label es importante ya que esto nos da una direccion IP y el puerto.
+
+Por otra parte el siguiente contenedor nos lo descargamos con el nombre con el que hemos hecho el push y lo demas igual, excepto que también hay que abrir el puerto 80 para recibir las peticiones http.
+
+Una vez hecho esto es importante indicar a la aplicación que se conecte al contenedor de la base de datos con la dirección IP de este.
+
+Hecho esto debemos de poder ver la salida por defecto si ponemos las rutas.
+
+Ahora vemos la salida de la creación de los contenedores.
+
+![](./img/c1.png)
+![](./img/c2.png)
+
+Ahora las rutas:
+
+![](./img/r1.png)
+![](./img/r2.png)
+![](./img/r3.png)
