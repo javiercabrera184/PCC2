@@ -66,6 +66,6 @@ En este hito se ha desarrollado el despliegue de la aplicación en contenedores 
 Toda la informacion necesaria respecto a este hito se encuentra en [este documento.](./doc/hito6.md)
 
 
-Contenedor: 51.11.1.86
+Contenedor: 51.145.111.192
 
 DockerHub: https://hub.docker.com/r/antojavi94/app
