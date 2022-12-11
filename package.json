@@ -23,7 +23,7 @@
   "dependencies": {
     "assert": "^2.0.0",
     "bunyan": "^1.8.12",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.3.0",
     "should": "^13.2.3"
   },
